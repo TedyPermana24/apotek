@@ -6,7 +6,8 @@
     <!-- CSS Libraries -->
 @endpush
 
-@section('main')<div class="main-content">
+@section('main')
+<div class="main-content">
         <section class="section">
             <div class="section-header">
                 <h1>Laravel 11 Stisla Starter</h1>

@@ -8,19 +8,25 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home', ['type_menu' => 'dashboard']);
 });
-Route::get('/default', function () {
-    return view('pages.default.default', ['type_menu' => 'dashboard']);
+
+Route::get('/obat', function () {
+    return view('obat.index', ['type_menu' => 'obat']);
 });
 
-Route::get('/error-403', function () {
-    return view('pages.errors.error-403', ['type_menu' => 'error']);
-});
-Route::get('/error-404', function () {
-    return view('pages.errors.error-404', ['type_menu' => 'error']);
-});
-Route::get('/error-500', function () {
-    return view('pages.errors.error-500', ['type_menu' => 'error']);
-});
-Route::get('/error-503', function () {
-    return view('pages.errors.error-503', ['type_menu' => 'error']);
-});
+
+// Route::get('/default', function () {
+//     return view('pages.default.default', ['type_menu' => 'dashboard']);
+// });
+
+// Route::get('/error-403', function () {
+//     return view('pages.errors.error-403', ['type_menu' => 'error']);
+// });
+// Route::get('/error-404', function () {
+//     return view('pages.errors.error-404', ['type_menu' => 'error']);
+// });
+// Route::get('/error-500', function () {
+//     return view('pages.errors.error-500', ['type_menu' => 'error']);
+// });
+// Route::get('/error-503', function () {
+//     return view('pages.errors.error-503', ['type_menu' => 'error']);
+// });

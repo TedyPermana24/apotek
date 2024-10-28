@@ -22,6 +22,20 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown {{ $type_menu === 'obat' ? 'active' : '' }}">
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Obat</span></a>
+                <ul class="dropdown-menu">
+                    <li class='{{ Request::is('home') ? 'active' : '' }}'>
+                        <a class="nav-link"
+                            href="{{ url('/') }}">Home</a>
+                    </li>
+                    <li class='{{ Request::is('default') ? 'active' : '' }}'>
+                        <a class="nav-link"
+                            href="{{ url('/default') }}">Default page</a>
+                    </li>
+                </ul>
+            </li>
             <li class="menu-header">Error</li>
             <li class="nav-item dropdown {{ $type_menu === 'error' ? 'active' : '' }}">
                 <a href="#"
