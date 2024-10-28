@@ -26,7 +26,7 @@
 
 Several quick start options are available:
 
--   Clone the repo: `git clone https://github.com/edikurniawan-dev/laravel-stisla.git`
+-   Clone the repo: `https://github.com/TedyPermana24/apotek.git`
 -   Run `cd` to the newly created `/laravel-stisla` directory
 -   Run `composer install` command
 -   Run `npm install` command
