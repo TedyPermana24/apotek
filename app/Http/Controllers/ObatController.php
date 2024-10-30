@@ -7,16 +7,33 @@ use App\Models\Obat;
 use App\Models\Kategori;
 use App\Models\Unit;
 use App\Models\Pemasok;
+use DataTables;
 
 
 class ObatController extends Controller
 {
-    function tampil(){
-        $data = Obat::get();
+    function tampil(Request $request){
+        $obat = Obat::get();
         $kategori = Kategori::get();
         $unit = Unit::get();
         $pemasok = Pemasok::get();
-        return view ('obat.index', ['type_menu' => 'obat'], compact('data', 'kategori', 'unit', 'pemasok'));
+        if ($request->ajax()) {
+            $obats = Obat::with(['kategoris', 'units', 'pemasoks'])->select('obats.*');
+
+                return DataTables::of($obats)
+                    ->addColumn('kategori_id', function ($obat) {
+                        return $obat->kategoris ? $obat->kategoris->kategori : 'N/A'; // Get category name
+                    })
+                    ->addColumn('unit_id', function ($obat) {
+                        return $obat->units ? $obat->units->nama_unit : 'N/A'; // Get unit name
+                    })
+                    ->addColumn('pemasok_id', function ($obat) {
+                        return $obat->pemasoks ? $obat->pemasoks->nama_pemasok : 'N/A'; // Get supplier name
+                    })
+                    ->make(true);
+        }
+        return view ('obat.index', ['type_menu' => 'obat'], compact('obat', 'kategori', 'unit', 'pemasok'));
+        // return view ('obat.index', ['type_menu' => 'obat'], compact('data', 'kategori', 'unit', 'pemasok'));
     }
 
     function add(Request $request){
