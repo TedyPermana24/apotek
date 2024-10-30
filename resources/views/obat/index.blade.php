@@ -162,7 +162,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="{{ route('obat.delete', $obat->id) }}" method="post">
+      <form action="{{ isset($obat) ? route('obat.delete', $obat->id) : '' }}" method="post">
       @csrf
       <div class="modal-body">
         <p>Modal body text goes here.</p>
@@ -189,7 +189,7 @@
             const obatId = $(this).data('id');
             
             // Ubah action URL dari form di dalam modal
-            $('#deleteForm').attr('action', '{{route('obat.delete', $obat->id)}}');
+            $('#deleteForm').attr('action', '{{ isset($obat) ? route('obat.delete', $obat->id) : '' }}');
         });
     });
   </script>
