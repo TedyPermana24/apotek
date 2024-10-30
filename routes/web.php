@@ -14,6 +14,12 @@ Route::get('/obat', [ObatController::class, 'tampil', ])->name('obat.tampil');
 
 Route::post('/obat/add', [ObatController::class, 'add', ])->name('obat.add');
 
+Route::get('/obat/edit/{id}', [ObatController::class, 'edit', ])->name('obat.edit');
+
+Route::post('/obat/update/{id}', [ObatController::class, 'update', ])->name('obat.update');
+
+Route::post('/obat/delete/{id}', [ObatController::class, 'delete', ])->name('obat.delete');
+
 
 // Route::get('/default', function () {
 //     return view('pages.default.default', ['type_menu' => 'dashboard']);

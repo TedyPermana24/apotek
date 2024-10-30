@@ -32,6 +32,37 @@ class ObatController extends Controller
         $obat->save();
 
         return redirect()->route('obat.tampil');
-        
+    }
+
+    function edit($id)
+    {
+        $obat = Obat::find($id);
+        $kategori = Kategori::get();
+        $unit = Unit::get();
+        $pemasok = Pemasok::get();
+        return view ('obat.edit', ['type_menu' => 'obat'], compact('obat', 'kategori', 'unit', 'pemasok'));
+    }
+
+    function update(Request $request, $id)
+    {
+        $obat = Obat::find($id);
+        $obat->nama_obat = $request->nama_obat;
+        $obat->kategori_id = $request->kategori_id;
+        $obat->unit_id = $request->unit_id;
+        $obat->stok = $request->stok;
+        $obat->kadaluwarsa = $request->kadaluwarsa;
+        $obat->harga_beli = $request->harga_beli;
+        $obat->harga_jual = $request->harga_jual;
+        $obat->pemasok_id = $request->pemasok_id;
+        $obat->update();
+
+        return redirect()->route('obat.tampil');
+    }
+
+    function delete($id)
+    {
+        $obat = Obat::find($id);
+        $obat->delete();
+        return redirect()->route('obat.tampil');
     }
 }

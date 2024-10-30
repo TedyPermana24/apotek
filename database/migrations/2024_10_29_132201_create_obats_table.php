@@ -18,8 +18,10 @@ return new class extends Migration
             $table->foreignId('unit_id')->constrained();
             $table->integer('stok');
             $table->date('kadaluwarsa');
-            $table->bigInteger('harga')->default(0);
+            $table->decimal('harga_beli', 10, 2);
+            $table->decimal('harga_jual', 10, 2);
             $table->timestamps();
+            $table->foreignId('pemasok_id')->constrained();
         });
     }
 

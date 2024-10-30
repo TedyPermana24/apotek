@@ -14,7 +14,7 @@ class Pembelian extends Model
 
     public function pemasok()
     {
-        return $this->belongsTo(Pemasok::class);
+        return $this->belongsTo(Pemasok::class, 'pemasok_id');
     }
 
     public function obats()

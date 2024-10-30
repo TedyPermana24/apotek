@@ -30,6 +30,10 @@ class Obat extends Model
         return $this->belongsTo(Unit::class, 'unit_id');
     }
 
+    function pemasoks()
+    {
+        return $this->belongsTo(Pemasok::class, 'pemasok_id');
+    }
 
     public function pembelians()
     {

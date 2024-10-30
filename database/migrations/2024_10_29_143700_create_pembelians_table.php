@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('pembelian', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->unsignedBigInteger('pemasok_id');
+            $table->foreignId('pemasok_id')->constrained();
             $table->decimal('total_harga', 15, 2);
             $table->timestamps();
-
-            $table->foreign('pemasok_id')->references('id')->on('pemasok')->onDelete('cascade');
         });
     }
 
