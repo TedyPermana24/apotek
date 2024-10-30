@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_obat');
             $table->foreignId('kategori_id')->constrained();
+            $table->foreignId('unit_id')->constrained();
             $table->integer('stok');
             $table->date('kadaluwarsa');
             $table->bigInteger('harga')->default(0);

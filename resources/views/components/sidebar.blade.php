@@ -8,31 +8,17 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class="nav-item dropdown {{ $type_menu === 'dashboard' ? 'active' : '' }}">
+            <li class="nav-item  {{ $type_menu === 'dashboard' ? 'active' : '' }}">
                 <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-                <ul class="dropdown-menu">
-                    <li class='{{ Request::is('home') ? 'active' : '' }}'>
-                        <a class="nav-link"
-                            href="{{ url('/') }}">Home</a>
-                    </li>
-                    <li class='{{ Request::is('default') ? 'active' : '' }}'>
-                        <a class="nav-link"
-                            href="{{ url('/default') }}">Default page</a>
-                    </li>
-                </ul>
+                    class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
             <li class="nav-item dropdown {{ $type_menu === 'obat' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Obat</span></a>
                 <ul class="dropdown-menu">
-                    <li class='{{ Request::is('home') ? 'active' : '' }}'>
+                    <li class='{{ Request::is('obat') ? 'active' : '' }}'>
                         <a class="nav-link"
-                            href="{{ url('/') }}">Home</a>
-                    </li>
-                    <li class='{{ Request::is('default') ? 'active' : '' }}'>
-                        <a class="nav-link"
-                            href="{{ url('/default') }}">Default page</a>
+                            href="{{ url('/obat') }}">Master Data</a>
                     </li>
                 </ul>
             </li>

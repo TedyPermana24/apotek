@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ObatController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -9,9 +10,9 @@ Route::get('/home', function () {
     return view('home', ['type_menu' => 'dashboard']);
 });
 
-Route::get('/obat', function () {
-    return view('obat.index', ['type_menu' => 'obat']);
-});
+Route::get('/obat', [ObatController::class, 'tampil', ])->name('obat.tampil');
+
+Route::post('/obat/add', [ObatController::class, 'add', ])->name('obat.add');
 
 
 // Route::get('/default', function () {

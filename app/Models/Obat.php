@@ -9,10 +9,12 @@ class Obat extends Model
 {
     use HasFactory;
 
+    protected $table = 'obats';
 
     protected $fillable = [
         'nama_obat',
         'kategori',
+        'unit',
         'stok',
         'date',
         'harga'
@@ -26,6 +28,17 @@ class Obat extends Model
     function units()
     {
         return $this->belongsTo(Unit::class, 'unit_id');
+    }
+
+
+    public function pembelians()
+    {
+        return $this->belongsToMany(Pembelian::class, 'pembelian_obat')->withPivot('jumlah', 'harga');
+    }
+
+    public function penjualans()
+    {
+        return $this->belongsToMany(Penjualan::class, 'penjualan_obat')->withPivot('nama', 'jumlah', 'harga');
     }
 
 }
