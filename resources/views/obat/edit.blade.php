@@ -28,6 +28,9 @@
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama Obat</label>
                       <div class="col-sm-12 col-md-7">
                         <input type="text" class="form-control" value="{{ $obat->nama_obat }}" name="nama_obat">
+                        @error('nama_obat')
+                          <div class="text-danger ml-1">{{$message}}</div>
+                        @enderror
                       </div>
                     </div>
                     <div class="form-group row mb-4">
@@ -38,6 +41,9 @@
                             <option value="{{ $item->id }}" {{ old('kategori_id', $obat->kategori_id) == $item->id ? 'selected' : '' }}>{{ $item->kategori }}</option>
                         @endforeach
                         </select>
+                        @error('kategori_id')
+                          <div class="text-danger ml-1">{{$message}}</div>
+                        @enderror
                       </div>
                     </div>
                     <div class="form-group row mb-4">
@@ -48,12 +54,18 @@
                             <option value="{{ $jenis->id }}" {{ old('unit_id', $obat->unit_id) == $jenis->id ? 'selected' : '' }}>{{ $jenis->nama_unit }}</option>
                         @endforeach
                         </select>
+                        @error('unit_id')
+                          <div class="text-danger ml-1">{{$message}}</div>
+                        @enderror
                       </div>
                     </div>
                     <div class="form-group row mb-4">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Stok</label>
                       <div class="col-sm-12 col-md-7">
                         <input type="number" class="form-control" value="{{ $obat->stok }}" name="stok">
+                        @error('stok')
+                          <div class="text-danger ml-1">{{$message}}</div>
+                        @enderror
                       </div>
                     </div>
                     <div class="form-group row mb-4">
@@ -67,6 +79,9 @@
                             </div>
                             <input type="date" name="kadaluwarsa" class="form-control daterange-cus" value="{{$obat->kadaluwarsa}}">
                           </div>
+                          @error('kadaluwarsa')
+                            <div class="text-danger ml-1">{{$message}}</div>
+                          @enderror
                       </div>
                     </div>
                     <div class="form-group row mb-4">
@@ -80,6 +95,9 @@
                             </div>
                             <input type="number" name="harga_beli" class="form-control" value="{{$obat->harga_beli}}">
                           </div>
+                          @error('harga_beli')
+                            <div class="text-danger ml-1">{{$message}}</div>
+                          @enderror
                       </div>
                     </div>
                     <div class="form-group row mb-4">
@@ -93,6 +111,9 @@
                             </div>
                             <input type="number" name="harga_jual" class="form-control" value="{{$obat->harga_jual}}">
                           </div>
+                          @error('harga_jual')
+                            <div class="text-danger ml-1">{{$message}}</div>
+                          @enderror
                       </div>
                     </div>
                     <div class="form-group row mb-4">
@@ -103,6 +124,9 @@
                             <option value="{{ $distribusi->id }}" {{ old('pemasok_id', $obat->pemasok_id) == $distribusi->id ? 'selected' : '' }}>{{ $distribusi->nama_pemasok}}</option>
                         @endforeach
                         </select>
+                        @error('pemasok_id')
+                            <div class="text-danger ml-1">{{$message}}</div>
+                        @enderror
                       </div>
                     </div>
                     <div class="form-group row mb-4">
@@ -116,9 +140,6 @@
                 </div>
               </div>
             </div>
-
-          
-
         </section>
       </div>
 
@@ -126,6 +147,12 @@
 
 @push('scripts')
     <!-- JS Libraies -->
-
+    @if (Session::has('message'))
+    <script>
+       swal("{{ Session::get('type') }}", "{{ Session::get('message') }}", "{{ Session::get('icon') }}", {
+         button: "OK",
+       });
+   </script>
+    @endif
     <!-- Page Specific JS File -->
 @endpush

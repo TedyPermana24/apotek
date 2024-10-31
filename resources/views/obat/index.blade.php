@@ -66,6 +66,9 @@
           <div class="form-group">
             <label>Nama obat</label>
             <input type="text" name="nama_obat" class="form-control">
+            @error('nama_obat')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
           </div>
           <div class="form-group">   
             <label>Kategori</label>
@@ -75,6 +78,9 @@
                   <option value={{ $kategori->id }}>{{ $kategori->kategori }}</option>
                 @endforeach
             </select>
+            @error('kategori_id')
+              <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
           </div>
           <div class="form-group">
             <label>Kategori</label>
@@ -84,10 +90,16 @@
                   <option value={{ $unit->id }}>{{ $unit->nama_unit }}</option>
                 @endforeach
             </select>
+            @error('unit_id')
+              <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
           </div>
           <div class="form-group">
             <label>Stok</label>
             <input type="number" name="stok" class="form-control">
+            @error('stok')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
           </div>
           <div class="form-group">
             <label>Kadaluwarsa</label>
@@ -99,6 +111,9 @@
               </div>
               <input type="date" name="kadaluwarsa" class="form-control daterange-cus">
             </div>
+            @error('kadaluwarsa')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
           </div>
           <div class="form-group">
             <label>Harga Beli</label>
@@ -110,6 +125,9 @@
               </div>
               <input type="number" class="form-control currency" name="harga_beli">
             </div>
+            @error('harga_beli')
+              <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
           </div>
           <div class="form-group">
             <label>Harga Jual</label>
@@ -121,6 +139,9 @@
               </div>
               <input type="number" class="form-control currency" name="harga_jual">
             </div>
+            @error('harga_jual')
+              <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
           </div>  
           <div class="form-group">
             <label>Pemasok</label>
@@ -130,6 +151,9 @@
                   <option value={{ $pemasok->id }}>{{ $pemasok->nama_pemasok }}</option>
                 @endforeach
             </select>
+            @error('pemasok_id')
+              <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
           </div>
         </div>    
       <div class="modal-footer bg-whitesmoke br">
@@ -140,6 +164,7 @@
     </div>
   </div>
 </div>
+
 
 {{-- Delete Modal --}}
 @foreach ($obat as $o)
@@ -210,11 +235,15 @@
 
         });
      });
-
- 
+    </script>
+ @if (Session::has('message'))
+ <script>
+    swal("{{ Session::get('type') }}", "{{ Session::get('message') }}", "{{ Session::get('icon') }}", {
+      button: "OK",
+    });
 </script>
+ @endif
 
-<script>
  
 </script>
 
