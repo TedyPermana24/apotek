@@ -10,12 +10,12 @@ class Pemasok extends Model
     use HasFactory;
 
     protected $table = 'pemasoks';
-    protected $fillable = ['nama_pemasok', 'alamat', 'telepon'];
+    protected $fillable = ['pemasok', 'alamat', 'telepon', 'deskripsi'];
 
-    public function obats()
-    {
-        return $this->hasMany(Obat::class, 'kategori_id');
-    }
+    // public function obats()
+    // {
+    //     return $this->hasMany(Obat::class, 'kategori_id');
+    // }
 
     public function pembelians()
     {

@@ -7,33 +7,29 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Obat;
 use App\Models\Kategori;
 use App\Models\Unit;
-use App\Models\Pemasok;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class ObatController extends Controller
 {
     function tampil(Request $request){
-        $obat = Obat::get();
-        $kategori = Kategori::get();
-        $unit = Unit::get();
-        $pemasok = Pemasok::get();
         if ($request->ajax()) {
-            $obats = Obat::with(['kategoris', 'units', 'pemasoks'])->select('obats.*');
+            $obats = Obat::with(['kategoris', 'units'])->select('obats.*');
 
                 return DataTables::of($obats)
                     ->addColumn('kategori_id', function ($obat) {
                         return $obat->kategoris ? $obat->kategoris->kategori : 'N/A'; // Get category name
                     })
                     ->addColumn('unit_id', function ($obat) {
-                        return $obat->units ? $obat->units->nama_unit : 'N/A'; // Get unit name
+                        return $obat->units ? $obat->units->unit : 'N/A'; // Get unit name
                     })
-                    ->addColumn('pemasok_id', function ($obat) {
-                        return $obat->pemasoks ? $obat->pemasoks->nama_pemasok : 'N/A'; // Get supplier name
-                    })
+                    // ->addColumn('pemasok_id', function ($obat) {
+                    //     return $obat->pemasoks ? $obat->pemasoks->pemasok : 'N/A'; // Get supplier name
+                    // })
                     ->make(true);
         }
-        return view ('obat.index', ['type_menu' => 'obat'], compact('obat', 'kategori', 'unit', 'pemasok'));
+        return view ('pages.obat.index', ['type_menu' => 'data', 'obat' => Obat::all(), 'kategori' => Kategori::all(), 'unit' => Unit::all()]);
+        // return view ('obat.index', ['type_menu' => 'data', 'obat' => Obat::all(), 'kategori' => Kategori::all(), 'unit' => Unit::all(), 'pemasok' => Pemasok::all()]);
         // return view ('obat.index', ['type_menu' => 'obat'], compact('data', 'kategori', 'unit', 'pemasok'));
     }
 
@@ -41,22 +37,25 @@ class ObatController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nama_obat' => 'required|string|max:255',
-            'kategori_id' => 'required|exists:kategoris,id',
-            'unit_id' => 'required|exists:units,id',
-            'stok' => 'required|integer|min:0',
+            // 'kategori_id' => 'required|exists:kategoris,id',
+            // 'unit_id' => 'required|exists:units,id',
+            // 'stok' => 'required|integer|min:0',
             'kadaluwarsa' => 'required|date',
-            'harga_beli' => 'required|numeric|min:0',
-            'harga_jual' => 'required|numeric|min:0',
-            'pemasok_id' => 'required|exists:pemasoks,id'
+            // 'harga_beli' => 'required|numeric|min:0',
+            // 'harga_jual' => 'required|numeric|min:0',
+            'indikasi' => 'nullable|string|max:500',
+            // 'pemasok_id' => 'required|exists:pemasoks,id'
         ], [
             'nama_obat.required' => 'Nama obat tidak boleh kosong.',
-            'kategori_id.required' => 'Kategori obat harus dipilih.',
-            'unit_id.required' => 'Unit obat harus dipilih.',
-            'stok.required' => 'Stok tidak boleh kosong.',
+            // 'kategori_id.required' => 'Kategori obat harus dipilih.',
+            // 'unit_id.required' => 'Unit obat harus dipilih.',
+            // 'stok.required' => 'Stok tidak boleh kosong.',
             'kadaluwarsa.required' => 'Tanggal kadaluwarsa tidak boleh kosong.',
-            'harga_beli.required' => 'Harga beli tidak boleh kosong.',
-            'harga_jual.required' => 'Harga jual tidak boleh kosong.',
-            'pemasok_id.required' => 'Pemasok harus dipilih.',
+            // 'harga_beli.required' => 'Harga beli tidak boleh kosong.',
+            // 'harga_jual.required' => 'Harga jual tidak boleh kosong.',
+            'indikasi.string' => 'Indikasi harus berupa teks.',
+            'indikasi.max' => 'Indikasi maksimal 500 karakter.',
+            // 'pemasok_id.required' => 'Pemasok harus dipilih.',
         ]);
     
         if ($validator->fails()) {
@@ -73,11 +72,12 @@ class ObatController extends Controller
         $obat->nama_obat = $request->nama_obat;
         $obat->kategori_id = $request->kategori_id;
         $obat->unit_id = $request->unit_id;
-        $obat->stok = $request->stok;
+        $obat->stok = 0;
         $obat->kadaluwarsa = $request->kadaluwarsa;
-        $obat->harga_beli = $request->harga_beli;
-        $obat->harga_jual = $request->harga_jual;
-        $obat->pemasok_id = $request->pemasok_id;
+        $obat->harga_beli = 0;
+        $obat->harga_jual = 0;
+        $obat->indikasi = $request->indikasi;
+        // $obat->pemasok_id = $request->pemasok_id;
         $obat->save();
     
         return redirect()->route('obat.tampil')
@@ -89,11 +89,8 @@ class ObatController extends Controller
 
     function edit($id)
     {
-        $obat = Obat::find($id);
-        $kategori = Kategori::get();
-        $unit = Unit::get();
-        $pemasok = Pemasok::get();
-        return view ('obat.edit', ['type_menu' => 'obat'], compact('obat', 'kategori', 'unit', 'pemasok'));
+        return view ('pages.obat.edit', ['type_menu' => 'data','obat' => Obat::find($id),  'kategori' => Kategori::all(), 'unit' => Unit::all()]);
+        // return view ('obat.edit', ['type_menu' => 'data','obat' => Obat::find($id),  'kategori' => Kategori::all(), 'unit' => Unit::all(), 'pemasok' => Pemasok::all()]);
     }
 
     function update(Request $request, $id)
@@ -107,7 +104,8 @@ class ObatController extends Controller
             'kadaluwarsa' => 'required|date',
             'harga_beli' => 'required|numeric|min:0',
             'harga_jual' => 'required|numeric|min:0',
-            'pemasok_id' => 'required|exists:pemasoks,id'
+            'indikasi' => 'nullable|string|max:500',
+            // 'pemasok_id' => 'required|exists:pemasoks,id'
         ], [
             'nama_obat.required' => 'Nama obat tidak boleh kosong.',
             'kategori_id.required' => 'Kategori obat harus dipilih.',
@@ -116,7 +114,9 @@ class ObatController extends Controller
             'kadaluwarsa.required' => 'Tanggal kadaluwarsa tidak boleh kosong.',
             'harga_beli.required' => 'Harga beli tidak boleh kosong.',
             'harga_jual.required' => 'Harga jual tidak boleh kosong.',
-            'pemasok_id.required' => 'Pemasok harus dipilih.',
+            'indikasi.string' => 'Indikasi harus berupa teks.',
+            'indikasi.max' => 'Indikasi maksimal 500 karakter.',
+            // 'pemasok_id.required' => 'Pemasok harus dipilih.',
         ]);
 
         if ($validator->fails()) {
@@ -136,7 +136,8 @@ class ObatController extends Controller
         $obat->kadaluwarsa = $request->kadaluwarsa;
         $obat->harga_beli = $request->harga_beli;
         $obat->harga_jual = $request->harga_jual;
-        $obat->pemasok_id = $request->pemasok_id;
+        $obat->indikasi = $request->indikasi;
+        // $obat->pemasok_id = $request->pemasok_id;
         $obat->update();
 
         return redirect()->route('obat.tampil')

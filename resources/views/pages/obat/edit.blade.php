@@ -51,7 +51,7 @@
                       <div class="col-sm-12 col-md-7">
                         <select class="form-control selectric" name="unit_id">
                         @foreach ($unit as $jenis)
-                            <option value="{{ $jenis->id }}" {{ old('unit_id', $obat->unit_id) == $jenis->id ? 'selected' : '' }}>{{ $jenis->nama_unit }}</option>
+                            <option value="{{ $jenis->id }}" {{ old('unit_id', $obat->unit_id) == $jenis->id ? 'selected' : '' }}>{{ $jenis->unit }}</option>
                         @endforeach
                         </select>
                         @error('unit_id')
@@ -117,6 +117,15 @@
                       </div>
                     </div>
                     <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Indikasi</label>
+                      <div class="col-sm-12 col-md-7">
+                          <textarea type="text" name="indikasi" class="form-control">{{$obat->indikasi}}</textarea>
+                          @error('indikasi')
+                            <div class="text-danger ml-1">{{$message}}</div>
+                          @enderror
+                      </div>
+                    </div>
+                    {{-- <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Pemasok</label>
                       <div class="col-sm-12 col-md-7">
                         <select class="form-control selectric" name="pemasok_id">
@@ -128,7 +137,7 @@
                             <div class="text-danger ml-1">{{$message}}</div>
                         @enderror
                       </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row mb-4">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                       <div class="col-sm-12 col-md-7">

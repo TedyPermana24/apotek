@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('pembelian', function (Blueprint $table) {
             $table->id();
+            $table->string('invoice');
             $table->date('tanggal');
             $table->foreignId('pemasok_id')->constrained();
-            $table->decimal('total_harga', 15, 2);
+            $table->integer('total_harga');
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('penjualan', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->decimal('total_harga', 15, 2);
+            $table->integer('total_harga');
             $table->timestamps();
         });
     }

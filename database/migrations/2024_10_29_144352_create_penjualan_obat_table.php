@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('obat_id')->constrained();
             $table->string('nama');
             $table->integer('jumlah');
-            $table->decimal('harga', 10, 2);
+            $table->integer('harga');
             $table->timestamps();
 
             $table->foreign('penjualan_id')->references('id')->on('penjualan')->onDelete('cascade');

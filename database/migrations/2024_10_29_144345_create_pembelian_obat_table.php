@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pembelian_id');
             $table->foreignId('obat_id')->constrained();
             $table->integer('jumlah');
-            $table->decimal('harga', 10, 2);
+            $table->integer('harga');
             $table->timestamps();
 
             $table->foreign('pembelian_id')->references('id')->on('pembelian')->onDelete('cascade');

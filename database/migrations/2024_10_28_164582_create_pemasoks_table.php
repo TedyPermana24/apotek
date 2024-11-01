@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('pemasoks', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pemasok');
+            $table->string('pemasok');
             $table->string('alamat');
             $table->string('telepon');
+            $table->string('deskripsi');
             $table->timestamps();
         });
     }
