@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kategori;
 use Illuminate\Support\Facades\Validator;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class KategoriController extends Controller
 {
@@ -16,7 +16,7 @@ class KategoriController extends Controller
             return DataTables::of($kategori)->make(true);
         }
 
-        return view ('pages.kategori.index', ['type_menu' => 'data', 'kategori' => Kategori::all()]);
+        return view ('pages.kategori.index', ['type_menu' => 'data']);
     }
 
     function add(Request $request){

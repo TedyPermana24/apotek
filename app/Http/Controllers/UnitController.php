@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Validator;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class UnitController extends Controller
 {
@@ -16,7 +16,7 @@ class UnitController extends Controller
             return DataTables::of($unit)->make(true);
         }
 
-        return view ('pages.unit.index', ['type_menu' => 'data', 'unit' => Unit::all()]);
+        return view ('pages.unit.index', ['type_menu' => 'data']);
     }
 
     function add(Request $request){

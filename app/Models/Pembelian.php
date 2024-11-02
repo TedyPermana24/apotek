@@ -21,4 +21,9 @@ class Pembelian extends Model
     {
         return $this->belongsToMany(Obat::class, 'pembelian_obat')->withPivot('jumlah', 'harga');
     }
+
+    public function pembelianObat()
+    {
+        return $this->hasMany(PembelianObat::class);
+    }
 }

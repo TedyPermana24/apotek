@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="tanggal">Tanggal</label>
-                                    <input type="date" class="form-control datepicker" id="tanggal" name="tanggal">
+                                    <input type="date" class="form-control datepicker" id="tanggal" name="tanggal" required>
                                     @error('tanggal')
                                         <div class="text-danger ml-1">{{$message}}</div>
                                      @enderror
@@ -104,23 +104,10 @@
                             </div>
                             <button type="button" class="btn btn-primary mt-3" onclick="tambahDataObat()">Tambah Data</button>
 
-                            <div class="form-row" id="data-obat-row-1">
-                                <div class="form-group col-md-3">
-                                    
-                                </div>
-                                <div class="form-group col-md-1">
-                                    
-                                </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-9"></div>
                                 <div class="form-group col-md-2">
-                                    
-                                </div>
-                                <div class="form-group col-md-1">
-                                    
-                                </div>
-                                <div class="form-group col-md-2">
-                              
-                                </div>
-                                <div class="form-group col-md-2">
+                                    <label><strong>Total Keseluruhan:</strong></label>
                                     <strong><span id="total-keseluruhan">0</span></strong>
                                 </div>
                             </div>
@@ -174,20 +161,40 @@ function tambahDataObat() {
                             <option value="{{ $items->id }}" data-kategori-id="{{ $items->kategoris->kategori}}">{{ $items->nama_obat}}</option>
                     @endforeach
             </select>
+            @error('nama_obat')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
+        </div>
+         <div class="form-group col-md-1">
+            <input type="text" class="form-control stok-input" name="stok[]" readonly>
+            @error('stok')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
         </div>
          <div class="form-group col-md-2">
             <input type="text" class="form-control kategori-input" name="kategori[]" readonly>
+            @error('kategori')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
         </div>
         <div class="form-group col-md-1">
             <input type="number" class="form-control" name="jumlah[]" oninput="updateTotal(this)" required>
+            @error('jumlah')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
         </div>
         <div class="form-group col-md-2">
-         
             <input type="number" class="form-control" name="harga[]" oninput="updateTotal(this)" required>
+            @error('harga')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
         </div>
         <div class="form-group col-md-2">
            
             <input type="number" class="form-control" name="total_harga[]" readonly>
+            @error('total_harga')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
         </div>
         <div class="form-group col-md-2 d-flex align-items-end">
             <button type="button" class="btn btn-danger" onclick="hapusDataObat(this)"><i class="fas fa-trash"></i></button>

@@ -47,49 +47,78 @@
     </section>
   </div>
 
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Hapus Data</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="deleteForm" method="POST">
+          @csrf
+          <div class="modal-body">
+            <p>Apakah Anda yakin ingin menghapus data ini?</p>
+          </div>
+          <div class="modal-footer bg-whitesmoke br">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-danger">Hapus</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @push('scripts')
 
   <script>
-      $(document).ready(function() {
-        $(".data-table").DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('detailpenjualan.tampil') }}",
-            columnDefs: [
-              { className: 'text-left', targets: [0, 1, 2, 3, 4, 5] },
-              { "searchable": false, "orderable": false, "targets": 0 },
-              { "searchable": false, "orderable": false, "targets": 5 }
-            ],
-            columns: [
-                { data: null, name: null, render: function (data, type, row, meta) {
-                  return meta.row + 1;
-                }},
-                { data: 'invoice', name: 'invoice' },
-                { data: 'nama', name: 'nama' },
-                { data: 'tanggal', name: 'tanggal' },
-                { 
-                    data: 'total_harga', 
-                    name: 'total_harga',
-                    render: function(data, type, row) {
-                        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data);
-                    }
-                },
-                { data: null, name: null, render: function (data, type, row, meta) {
-                  return `
-                    <div class="d-flex justify-content-left">
-                      <a href="/detailpenjualan/showDetail/${row.id}" class="btn btn-primary btn-sm">Detail Penjualan</a>
-                       <a href="/detailpenjualan/delete/${row.id}" class="btn btn-danger btn-sm"><i class = "fas fa-trash"></i></a>
-                    </div>
-                  `;
-                }}
-                
-          ],
-
-        });
-     });
-    </script>
+       $(document).ready(function() {
+      let table = $(".data-table").DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('detailpenjualan.tampil') }}",
+        columnDefs: [
+          { className: 'text-left', targets: [0, 1, 2, 3, 4, 5] },
+          { "searchable": false, "orderable": false, "targets": 0 },
+          { "searchable": false, "orderable": false, "targets": 5 }
+        ],
+        columns: [
+          { data: null, name: null, render: function (data, type, row, meta) {
+            return meta.row + 1;
+          }},
+          { data: 'invoice', name: 'invoice' },
+          { data: 'nama', name: 'nama' },
+          { data: 'tanggal', name: 'tanggal' },
+          { 
+            data: 'total_harga', 
+            name: 'total_harga',
+            render: function(data, type, row) {
+              return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data);
+            }
+          },
+          { data: null, name: null, render: function (data, type, row, meta) {
+            return `
+              <div class="d-flex justify-content-left">
+                <a href="/detailpenjualan/showDetail/${row.id}" class="btn btn-primary btn-sm"><i class="fa-regular fa-eye"></i></a>
+                <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}"><i class="fas fa-trash"></i></button>
+              </div>
+            `;
+          }}
+        ],
+        drawCallback: function() {
+          // Bind click event to delete buttons after table redraw
+          $('.delete-btn').on('click', function() {
+            const id = $(this).data('id');
+            $('#deleteForm').attr('action', `/penjualan/delete/${id}`);
+            $('#deleteModal').modal('show');
+          });
+        }
+      });
+    });
+  </script>
     
  @if (Session::has('message'))
  <script>

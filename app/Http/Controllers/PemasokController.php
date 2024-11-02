@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pemasok;
 use Illuminate\Support\Facades\Validator;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class PemasokController extends Controller
 {
@@ -16,7 +16,7 @@ class PemasokController extends Controller
             return DataTables::of($pemasok)->make(true);
         }
 
-        return view ('pages.pemasok.index', ['type_menu' => 'data', 'pemasok' => Pemasok::all()]);
+        return view ('pages.pemasok.index', ['type_menu' => 'data']);
     }
 
     function add(Request $request){

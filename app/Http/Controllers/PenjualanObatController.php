@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Penjualan;
 use App\Models\PenjualanObat;
+use App\Models\Obat;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -18,7 +19,7 @@ class PenjualanObatController extends Controller
             ->make(true);
         }
 
-        return view ('pages.detailpenjualan.index', ['type_menu' => 'transaksi']);
+        return view ('pages.detailpenjualan.index', ['type_menu' => 'transaksi', 'penjualan_obat' => PenjualanObat::all()]);
     }
 
     function detail($id){
@@ -27,18 +28,5 @@ class PenjualanObatController extends Controller
         return view('pages.detailpenjualan.detail', ['type_menu' => 'transaksi'], compact('penjualan', 'detailObat'));
     }
 
-    function hapus($id){
-        // Menghapus semua data terkait di penjualan_obat berdasarkan penjualan_id
-        PenjualanObat::where('penjualan_id', $id)->delete();
-        
-        // Menghapus data penjualan
-        $penjualan = Penjualan::find($id);
-        if ($penjualan) {
-            $penjualan->delete();
-            return response()->json(['success' => 'Data penjualan dan detail obat berhasil dihapus']);
-        } else {
-            return response()->json(['error' => 'Data penjualan tidak ditemukan'], 404);
-        }
-    }
     
 }

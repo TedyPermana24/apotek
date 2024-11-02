@@ -47,6 +47,29 @@
     </section>
   </div>
 
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Hapus Data</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="deleteForm" method="POST">
+          @csrf
+          <div class="modal-body">
+            <p>Apakah Anda yakin ingin menghapus data ini?</p>
+          </div>
+          <div class="modal-footer bg-whitesmoke br">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-danger">Hapus</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @push('scripts')
@@ -79,12 +102,21 @@
                 { data: null, name: null, render: function (data, type, row, meta) {
                   return `
                     <div class="d-flex justify-content-left">
-                      <a href="/detailpembelian/showDetail/${row.id}" class="btn btn-primary btn-sm">Detail Pembelian</a>
+                      <a href="/detailpembelian/showDetail/${row.id}" class="btn btn-primary btn-sm"><i class="fa-regular fa-eye"></i></a>
+                      <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}"><i class="fas fa-trash"></i></button>
                     </div>
                   `;
                 }}
                 
           ],
+          drawCallback: function() {
+          // Bind click event to delete buttons after table redraw
+          $('.delete-btn').on('click', function() {
+            const id = $(this).data('id');
+            $('#deleteForm').attr('action', `/pembelian/delete/${id}`);
+            $('#deleteModal').modal('show');
+          });
+        }
 
         });
      });

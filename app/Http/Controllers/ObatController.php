@@ -28,7 +28,7 @@ class ObatController extends Controller
                     // })
                     ->make(true);
         }
-        return view ('pages.obat.index', ['type_menu' => 'data', 'obat' => Obat::all(), 'kategori' => Kategori::all(), 'unit' => Unit::all()]);
+        return view ('pages.obat.index', ['type_menu' => 'data', 'kategori' => Kategori::all(), 'unit' => Unit::all()]);
         // return view ('obat.index', ['type_menu' => 'data', 'obat' => Obat::all(), 'kategori' => Kategori::all(), 'unit' => Unit::all(), 'pemasok' => Pemasok::all()]);
         // return view ('obat.index', ['type_menu' => 'obat'], compact('data', 'kategori', 'unit', 'pemasok'));
     }

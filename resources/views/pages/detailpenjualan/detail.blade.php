@@ -18,6 +18,11 @@
               <div class="card">
                 <div class="card-header">
                   <h4>Detail Penjualan Obat</h4>
+                  <div class="card-header-form">
+                    <div class="input-group">
+                      <a href="/penjualan/edit/{{ $penjualan->id }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-body">
                     <div class="form-group row">

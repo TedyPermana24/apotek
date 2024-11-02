@@ -17,7 +17,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h4>Kategori</h4>
+                <h4>Pemasok</h4>
                 <div class="card-header-form">
                   <div class="input-group">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#tambahPemasok">Tambah Data Pemasok</button>
@@ -34,7 +34,7 @@
                         <th>Alamat</th>
                         <th>No. Telepon</th>
                         <th>Deskripsi</th>
-                        <th>Aksi</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                   </table>
@@ -100,30 +100,28 @@
 
 
 {{-- Delete Modal --}}
-@foreach ($pemasok as $data)
-<div class="modal fade" tabindex="-1" role="dialog" id="hapusPemasok{{ $data->id }}">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title">Hapus Data</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="{{ isset($data) ? route('pemasok.delete', $data->id) : '' }}"  method="post">
-      @csrf
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer bg-whitesmoke br">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-danger">Save changes</button>
-      </div>
-    </form>
+      <form id="deleteForm" method="POST">
+        @csrf
+        <div class="modal-body">
+          <p>Apakah Anda yakin ingin menghapus data ini?</p>
+        </div>
+        <div class="modal-footer bg-whitesmoke br">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-danger">Hapus</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
-@endforeach
 
 
 
@@ -155,13 +153,21 @@
               { data: null, name: null, render: function (data, type, row, meta) {
                 return `
                   <div class="d-flex justify-content-left">
-                     <a href="/pemasok/edit/${row.id}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                    <button class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target="#hapusPemasok${row.id}" ><i class="fas fa-trash"></i></button>
+                    <a href="/pemasok/edit/${row.id}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                   <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}"><i class="fas fa-trash"></i></button>
                   </div>
                 `;
               }}
               
           ],
+          drawCallback: function() {
+          // Bind click event to delete buttons after table redraw
+          $('.delete-btn').on('click', function() {
+            const id = $(this).data('id');
+            $('#deleteForm').attr('action', `/pemasok/delete/${id}`);
+            $('#deleteModal').modal('show');
+          });
+        }
 
         });
      });

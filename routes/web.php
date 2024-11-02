@@ -43,7 +43,9 @@ Route::post('/pemasok/delete/{id}', [PemasokController::class, 'delete', ])->nam
 
 Route::get('/pembelian', [PembelianController::class, 'tampil', ])->name('pembelian.tampil');
 Route::post('/pembelian/store', [PembelianController::class, 'store'])->name('pembelian.store');
-
+Route::post('/pembelian/delete/{id}', [PembelianController::class, 'delete'])->name('pembelian.delete');
+Route::get('/pembelian/edit/{id}', [PembelianController::class, 'edit'])->name('pembelian.edit');
+Route::post('/pembelian/update/{id}', [PembelianController::class, 'update'])->name('pembelian.update');
 
 Route::get('/detailpembelian', [PembelianObatController::class, 'tampil', ])->name('detailpembelian.tampil');
 
@@ -53,7 +55,9 @@ Route::get('/detailpenjualan', [penjualanObatController::class, 'tampil', ])->na
 Route::get('/detailpenjualan/showDetail/{id}', [PenjualanObatController::class, 'detail', ])->name('detailpenjualan.detail');
 Route::get('/penjualan', [PenjualanController::class, 'tampil', ])->name('penjualan.tampil');
 Route::post('/penjualan/store', [PenjualanController::class, 'store'])->name('penjualan.store');
-Route::post('/detailpenjualan/delete/{id}', [PenjualanController::class, 'delete'])->name('penjualan.delete');
+Route::post('/penjualan/delete/{id}', [PenjualanController::class, 'delete'])->name('penjualan.delete');
+Route::get('/penjualan/edit/{id}', [PenjualanController::class, 'edit'])->name('penjualan.edit');
+Route::post('/penjualan/update/{id}', [PenjualanController::class, 'update'])->name('penjualan.update');
 
 
 

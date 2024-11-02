@@ -16,4 +16,9 @@ class Penjualan extends Model
     {
         return $this->belongsToMany(Obat::class, 'penjualan_obat')->withPivot('nama', 'jumlah', 'harga');
     }
+
+    public function penjualanObat()
+    {
+        return $this->hasMany(PenjualanObat::class);
+    }
 }
