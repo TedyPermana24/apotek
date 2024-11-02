@@ -5,7 +5,9 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PembelianObatController;
+use App\Http\Controllers\PenjualanObatController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,12 +42,19 @@ Route::post('/pemasok/update/{id}', [PemasokController::class, 'update', ])->nam
 Route::post('/pemasok/delete/{id}', [PemasokController::class, 'delete', ])->name('pemasok.delete');
 
 Route::get('/pembelian', [PembelianController::class, 'tampil', ])->name('pembelian.tampil');
-Route::post('/pembelian', [PembelianController::class, 'store'])->name('pembelian.store');
+Route::post('/pembelian/store', [PembelianController::class, 'store'])->name('pembelian.store');
 
 
 Route::get('/detailpembelian', [PembelianObatController::class, 'tampil', ])->name('detailpembelian.tampil');
 
 Route::get('/detailpembelian/showDetail/{id}', [PembelianObatController::class, 'detail', ])->name('detailpembelian.detail');
+
+Route::get('/detailpenjualan', [penjualanObatController::class, 'tampil', ])->name('detailpenjualan.tampil');
+Route::get('/detailpenjualan/showDetail/{id}', [PenjualanObatController::class, 'detail', ])->name('detailpenjualan.detail');
+Route::get('/penjualan', [PenjualanController::class, 'tampil', ])->name('penjualan.tampil');
+Route::post('/penjualan/store', [PenjualanController::class, 'store'])->name('penjualan.store');
+Route::post('/detailpenjualan/delete/{id}', [PenjualanController::class, 'delete'])->name('penjualan.delete');
+
 
 
 // Route::get('/default', function () {

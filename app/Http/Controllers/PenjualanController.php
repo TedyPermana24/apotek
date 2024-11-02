@@ -2,28 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pembelian;
-use App\Models\Obat;
-use App\Models\Pemasok;
+use App\Models\PenjualanObat;
+use App\Models\Penjualan;
 use App\Models\Kategori;
-use App\Models\PembelianObat;
+use App\Models\Obat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 
-class PembelianController extends Controller
+class PenjualanController extends Controller
 {
     function tampil(){
         
-        return view ('pages.pembelian.index', ['type_menu' => 'transaksi', 'obat' => Obat::with('kategoris')->get(), 'pemasok' => Pemasok::all(), 'kategori' => Kategori::all(), 'invoice' => strtoupper(Str::random(8))]);
+        return view ('pages.penjualan.index', ['type_menu' => 'transaksi', 'obat' => Obat::with('kategoris')->get(), 'kategori' => Kategori::all(), 'invoice' => strtoupper(Str::random(8))]);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'pemasok_id' => 'required|exists:pemasoks,id',
+            'nama' => 'required',
             'tanggal' => 'required|date',
             'jumlah' => 'required|array',
             'jumlah.*' => 'required|integer|min:1',
@@ -32,8 +31,7 @@ class PembelianController extends Controller
             'nama_obat' => 'required|array',
             'nama_obat.*' => 'required|exists:obats,id',
         ], [
-            'pemasok_id.required' => 'Pemasok wajib diisi.',
-            'pemasok_id.exists' => 'Pemasok yang dipilih tidak valid.',
+            'nama.required' => 'Nama wajib diisi',
             'tanggal.required' => 'Tanggal wajib diisi.',
             'tanggal.date' => 'Format tanggal tidak valid.',
             'jumlah.required' => 'Jumlah obat wajib diisi.',
@@ -54,11 +52,11 @@ class PembelianController extends Controller
         
 
         if ($validator->fails()) {
-            return redirect()->route('pembelian.tampil')
+            return redirect()->route('penjualan.tampil')
                 ->withErrors($validator)
                 ->withInput()
                 ->with('type', 'Gagal!!')
-                ->with('message', 'Pembelian gagal')
+                ->with('message', 'Penjualan gagal')
                 ->with('icon', 'error');
         }
 
@@ -69,32 +67,32 @@ class PembelianController extends Controller
 
         DB::beginTransaction();
    
-        $pembelian = Pembelian::create([
+        $penjualan = Penjualan::create([
             'invoice' => $request->invoice,
+            'nama' => $request->nama,
             'tanggal' => $request->tanggal,
-            'pemasok_id' => $request->pemasok_id,
             'total_harga' => $totalHarga,
         ]);
 
         foreach ($request->jumlah as $index => $jumlah) {
-            PembelianObat::create([
-                'pembelian_id' => $pembelian->id,
+            PenjualanObat::create([
+                'penjualan_id' => $penjualan->id,
                 'obat_id' => $request->nama_obat[$index],
                 'jumlah' => $jumlah,
                 'harga' => $request->harga[$index],
             ]);
 
             $obat = Obat::find($request->nama_obat[$index]);
-            $obat->stok += $jumlah;
+            $obat->stok -= $jumlah;
             $obat->save();
         }
 
             
         DB::commit();
 
-        return redirect()->route('detailpembelian.tampil')
+        return redirect()->route('detailpenjualan.tampil')
         ->with('type', 'Berhasil!')
-        ->with('message', 'Pembelian berhasil ditambahkan')
+        ->with('message', 'Penjualan berhasil ditambahkan')
         ->with('icon', 'success');
     }
 }

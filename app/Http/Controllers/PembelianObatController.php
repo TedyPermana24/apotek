@@ -26,6 +26,5 @@ class PembelianObatController extends Controller
         $pembelian = Pembelian::with('pemasoks')->find($id);
         $detailObat = PembelianObat::with('obats')->where('pembelian_id', $id)->get();
         return view('pages.detailpembelian.detail', ['type_menu' => 'transaksi'], compact('pembelian', 'detailObat') );
-        // return view('pages.detailpembelian.detail', ['type_menu' => 'transaksi']);
     }
 }

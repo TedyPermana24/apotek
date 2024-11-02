@@ -10,17 +10,17 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Pembelian</h1>
+            <h1>Penjualan</h1>
         </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Pembelian Obat</h4>
+                            <h4>Penjualan Obat</h4>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('pembelian.store') }}" method="POST">
+                            <form action="{{route('penjualan.store')}}" method="POST">
                                 @csrf
                             <div class="form-row">
                                 <div class="form-group col-md-3">
@@ -28,14 +28,9 @@
                                     <input type="text" class="form-control datepicker" id="invoice" name="invoice" value="{{ $invoice }}" readonly>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="pemasok">Pemasok</label>
-                                    <select class="form-control select" name="pemasok_id">
-                                        <option value="" disabled>Pilih Pemasok</option>
-                                        @foreach ($pemasok as $items)
-                                            <option value="{{ $items->id }}">{{ $items->pemasok }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('pemasok_id')
+                                    <label for="nama">Nama Pembeli</label>
+                                    <input type="text" class="form-control" id="nama" name="nama">
+                                    @error('nama')
                                         <div class="text-danger ml-1">{{$message}}</div>
                                      @enderror
                                 </div>
@@ -55,10 +50,10 @@
                                 <div class="form-row" id="data-obat-row-1">
                                     <div class="form-group col-md-3">
                                         <label for="nama_obat">Nama Obat</label>
-                                        <select class="form-control select" name="nama_obat[]" onchange="updateKategori(this); updateStok(this);">
+                                        <select class="form-control select" name="nama_obat[]" onchange="updateKategori(this); updateHarga(this); updateStok(this);">
                                             <option value="" disabled selected>Pilih Obat</option>
                                             @foreach ($obat as $items)
-                                                <option value="{{ $items->id }}" data-stok-id="{{ $items->stok}}" data-kategori-id="{{ $items->kategoris->kategori}}">{{ $items->nama_obat}}</option>
+                                                <option value="{{ $items->id }}" data-stok-id="{{ $items->stok}}" data-harga-id="{{ $items->harga_jual}}" data-kategori-id="{{ $items->kategoris->kategori}}">{{ $items->nama_obat}}</option>
                                             @endforeach
                                         </select>
                                         @error('nama_obat')
@@ -88,7 +83,7 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="harga">Harga</label>
-                                        <input type="number" class="form-control" name="harga[]" oninput="updateTotal(this)"  required>
+                                        <input type="number" class="form-control harga-input" name="harga[]" oninput="updateTotal(this)" readonly>
                                         @error('harga')
                                             <div class="text-danger ml-1">{{$message}}</div>
                                         @enderror
@@ -108,11 +103,11 @@
                                 <div class="form-group col-md-3">
                                     
                                 </div>
-                                <div class="form-group col-md-1">
-                                    
-                                </div>
                                 <div class="form-group col-md-2">
                                     
+                                </div>
+                                <div class="form-group col-md-1">
+
                                 </div>
                                 <div class="form-group col-md-1">
                                     
@@ -151,6 +146,15 @@ function updateKategori(selectElement) {
         kategoriInput.value = kategoriId;
     }
 
+    function updateHarga(selectElement) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const hargaId = selectedOption.getAttribute('data-harga-id');
+        
+        // Update kategori input in the same row
+        const hargaInput = selectElement.closest('.form-row').querySelector('.harga-input');
+        hargaInput.value = hargaId;
+    }
+
     function updateStok(selectElement) {
         const selectedOption = selectElement.options[selectElement.selectedIndex];
         const stokId = selectedOption.getAttribute('data-stok-id');
@@ -159,7 +163,7 @@ function updateKategori(selectElement) {
         const stokInput = selectElement.closest('.form-row').querySelector('.stok-input');
         stokInput.value = stokId;
     }
-
+    
 function tambahDataObat() {
     obatRowCount++;
     const dataObatSection = document.getElementById('data-obat-section');
@@ -168,12 +172,18 @@ function tambahDataObat() {
     newRow.id = 'data-obat-row-' + obatRowCount;
     newRow.innerHTML = `
         <div class="form-group col-md-3">
-            <select class="form-control select" name="nama_obat[]" onchange="updateKategori(this)">
+            <select class="form-control select" name="nama_obat[]" onchange="updateKategori(this); updateHarga(this); updateStok(this)">
                 <option value="" disabled selected>Pilih Obat</option>
                      @foreach ($obat as $items)
-                            <option value="{{ $items->id }}" data-kategori-id="{{ $items->kategoris->kategori}}">{{ $items->nama_obat}}</option>
+                            <option value="{{ $items->id }}" data-stok-id="{{$items->stok}}" data-harga-id="{{$items->harga_jual}}" data-kategori-id="{{ $items->kategoris->kategori}}">{{ $items->nama_obat}}</option>
                     @endforeach
             </select>
+        </div>
+        <div class="form-group col-md-1">
+            <input type="text" class="form-control stok-input" name="stok[]" readonly>
+            @error('stok')
+                <div class="text-danger ml-1">{{$message}}</div>
+            @enderror
         </div>
          <div class="form-group col-md-2">
             <input type="text" class="form-control kategori-input" name="kategori[]" readonly>
@@ -183,7 +193,7 @@ function tambahDataObat() {
         </div>
         <div class="form-group col-md-2">
          
-            <input type="number" class="form-control" name="harga[]" oninput="updateTotal(this)" required>
+            <input type="number" class="form-control harga-input" name="harga[]" oninput="updateTotal(this)" readonly>
         </div>
         <div class="form-group col-md-2">
            

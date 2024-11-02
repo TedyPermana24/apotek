@@ -9,8 +9,8 @@ class Penjualan extends Model
 {
     use HasFactory;
 
-    protected $table = 'penjualan';
-    protected $fillable = ['nama', 'tanggal', 'total_harga'];
+    protected $table = 'penjualans';
+    protected $fillable = ['invoice', 'nama', 'tanggal', 'total_harga'];
 
     public function obats()
     {

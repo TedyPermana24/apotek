@@ -38,9 +38,13 @@
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fa-solid fa-money-bill"></i><span>Transaksi</span></a>
                 <ul class="dropdown-menu">
-                    <li class='{{ Request::is('detailPembelian') ? 'active' : '' }}'>
+                    <li class='{{ Request::is('detailpembelian') ? 'active' : '' }}'>
                         <a class="nav-link"
                             href="{{ url('/detailpembelian') }}">Pembelian</a>
+                    </li>
+                    <li class='{{ Request::is('detailpenjualan') ? 'active' : '' }}'>
+                        <a class="nav-link"
+                            href="{{ url('/detailpenjualan') }}">Penjualan</a>
                     </li>
                 </ul>
             </li>

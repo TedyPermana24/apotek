@@ -15,12 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('penjualan_id');
             $table->foreignId('obat_id')->constrained();
-            $table->string('nama');
             $table->integer('jumlah');
             $table->integer('harga');
             $table->timestamps();
 
-            $table->foreign('penjualan_id')->references('id')->on('penjualan')->onDelete('cascade');
+            $table->foreign('penjualan_id')->references('id')->on('penjualans')->onDelete('cascade');
             
         });
     }
