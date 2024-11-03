@@ -76,16 +76,18 @@
                                 <th>Stok</th>
                                 <th>Kadaluwarsa</th>
                               </tr>
+                              @foreach ($ObatKadaluwarsa as $index => $obat)
                               <tr>
-                                @foreach ($ObatKadaluwarsa as $index => $obat)
+                                
                                 <td>{{$index + 1}}</td>
                                 <td>{{$obat->nama_obat}}</td>
                                 <td>{{$obat->kategoris->kategori}}</td>
                                 <td>{{$obat->units->unit}}</td>
                                 <td>{{$obat->stok}}</td>
                                 <td>{{$obat->kadaluwarsa}}</td>
-                                @endforeach
+                           
                               </tr>
+                              @endforeach
                             </table>
                           </div>
                     </div>
