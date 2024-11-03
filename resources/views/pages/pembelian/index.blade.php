@@ -155,10 +155,10 @@ function tambahDataObat() {
     newRow.id = 'data-obat-row-' + obatRowCount;
     newRow.innerHTML = `
         <div class="form-group col-md-3">
-            <select class="form-control select" name="nama_obat[]" onchange="updateKategori(this)">
+            <select class="form-control select" name="nama_obat[]" onchange="updateKategori(this); updateStok(this);">
                 <option value="" disabled selected>Pilih Obat</option>
                      @foreach ($obat as $items)
-                            <option value="{{ $items->id }}" data-kategori-id="{{ $items->kategoris->kategori}}">{{ $items->nama_obat}}</option>
+                            <option value="{{ $items->id }}" data-stok-id="{{ $items->stok}}" data-kategori-id="{{ $items->kategoris->kategori}}">{{ $items->nama_obat}}</option>
                     @endforeach
             </select>
             @error('nama_obat')

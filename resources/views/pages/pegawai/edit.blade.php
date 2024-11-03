@@ -56,7 +56,7 @@
                         <div class="col-sm-12 col-md-7">
                             <select class="form-control selectric" name="role">
                                 <option value="kasir" {{ old('role') === 'kasir' ? 'selected' : '' }}>Kasir</option>
-                                <option value="Admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
                             </select>
                                 @error('role')
                                   <div class="text-danger ml-1">{{$message}}</div>

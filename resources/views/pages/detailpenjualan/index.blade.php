@@ -17,7 +17,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4>Obat</h4>
+                  <h4>Penjualan</h4>
                   <div class="card-header-form">
                     <div class="input-group">
                       <a class="btn btn-primary" href="{{ route('penjualan.tampil')}}">Tambah Penjualan</a>
