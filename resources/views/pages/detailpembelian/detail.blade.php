@@ -20,7 +20,9 @@
                   <h4>Detail Pembelian Obat</h4>
                   <div class="card-header-form">
                     <div class="input-group">
+                      @if(auth()->user()->role === 'admin')
                       <a href="/pembelian/edit/{{ $pembelian->id }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                      @endif
                     </div>
                   </div>
                 </div>

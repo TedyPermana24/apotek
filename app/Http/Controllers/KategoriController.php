@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Kategori;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Database\QueryException;
+use Exception;
 
 class KategoriController extends Controller
 {
@@ -94,11 +96,28 @@ class KategoriController extends Controller
     
     function delete($id)
     {
-        $kategori = Kategori::find($id);
-        $kategori->delete();
-        return redirect()->route('kategori.tampil')
-        ->with('type', 'Berhasil!')
-        ->with('message', 'Data kategori berhasil dihapus')
-        ->with('icon', 'success');
+        try {
+            $kategori = Kategori::find($id);
+            $kategori->delete();
+            return redirect()->route('kategori.tampil')
+            ->with('type', 'Berhasil!')
+            ->with('message', 'Data kategori berhasil dihapus')
+            ->with('icon', 'success');
+    
+        }catch (QueryException $e) {
+            if ($e->getCode() === '23000') { // Error code 23000 terkait constraint
+                return back()  
+                ->with('type', 'Gagal!')
+                ->with('message', 'Data kategori gagal dihapus pelanggaran constraint')
+                ->with('icon', 'error');
+            }
+            return back()->withErrors('Terjadi kesalahan saat menghapus data: ' . $e->getMessage());
+        } catch (Exception $e) {
+            // Menangani error umum lainnya
+            return back()
+            >with('type', 'Gagal!')
+            ->with('message', $e->getMessage())
+            ->with('icon', 'error');
+        }
     }
 }

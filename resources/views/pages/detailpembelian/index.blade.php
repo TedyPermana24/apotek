@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laravel 11 Stisla Starter')
+@section('title', 'Detail Pembelian')
 
 @push('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
@@ -47,6 +47,7 @@
     </section>
   </div>
 
+  @if(auth()->user()->role === 'admin')
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -69,6 +70,7 @@
       </div>
     </div>
   </div>
+  @endif
 
 @endsection
 
@@ -103,7 +105,9 @@
                   return `
                     <div class="d-flex justify-content-left">
                       <a href="/detailpembelian/showDetail/${row.id}" class="btn btn-primary btn-sm"><i class="fa-regular fa-eye"></i></a>
-                      <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}"><i class="fas fa-trash"></i></button>
+                       @if(auth()->user()->role === 'admin')
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}"><i class="fas fa-trash"></i></button>
+                       @endif
                     </div>
                   `;
                 }}

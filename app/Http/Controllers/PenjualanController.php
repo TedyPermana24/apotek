@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Database\QueryException;
+use Exception;
+
 
 
 class PenjualanController extends Controller
@@ -200,29 +203,45 @@ class PenjualanController extends Controller
 
 
     function delete($id){
-        $penjualanObat = PenjualanObat::where('penjualan_id', $id)->get();
+        try {
+            $penjualanObat = PenjualanObat::where('penjualan_id', $id)->get();
         
         
-        foreach ($penjualanObat as $jual) {
-            // Assuming you have a model for Obat and a 'stok' field for the stock quantity
-            $obat = Obat::find($jual->obat_id); // Mengambil obat berdasarkan obat_id di tabel penjualan_obat
-    
-            if ($obat) {
-                // Menambahkan stok obat sesuai jumlah yang dijual
-                $obat->stok += $jual->jumlah; // 'jumlah' merupakan jumlah pembelian dalam penjualan_obat
-                $obat->save(); // Menyimpan stok terbaru ke database
+            foreach ($penjualanObat as $jual) {
+                // Assuming you have a model for Obat and a 'stok' field for the stock quantity
+                $obat = Obat::find($jual->obat_id); // Mengambil obat berdasarkan obat_id di tabel penjualan_obat
+        
+                if ($obat) {
+                    // Menambahkan stok obat sesuai jumlah yang dijual
+                    $obat->stok += $jual->jumlah; // 'jumlah' merupakan jumlah pembelian dalam penjualan_obat
+                    $obat->save(); // Menyimpan stok terbaru ke database
+                }
             }
+    
+            PenjualanObat::where('penjualan_id', $id)->delete();
+            
+    
+            $penjualan = Penjualan::find($id);
+            $penjualan->delete();
+            
+             return redirect()->route('detailpenjualan.tampil')
+            ->with('type', 'Berhasil!')
+            ->with('message', 'Data penjualan berhasil dihapus')
+            ->with('icon', 'success');
+        }catch (QueryException $e) {
+            if ($e->getCode() === '23000') { // Error code 23000 terkait constraint
+                return back()  
+                ->with('type', 'Gagal!')
+                ->with('message', 'Data penjualan gagal dihapus pelanggaran constraint')
+                ->with('icon', 'error');
+            }
+            return back()->withErrors('Terjadi kesalahan saat menghapus data: ' . $e->getMessage());
+        } catch (Exception $e) {
+            // Menangani error umum lainnya
+            return back()
+            >with('type', 'Gagal!')
+            ->with('message', $e->getMessage())
+            ->with('icon', 'error');
         }
-
-        PenjualanObat::where('penjualan_id', $id)->delete();
-        
-
-        $penjualan = Penjualan::find($id);
-        $penjualan->delete();
-        
-         return redirect()->route('detailpenjualan.tampil')
-        ->with('type', 'Berhasil!')
-        ->with('message', 'Data penjualan berhasil dihapus')
-        ->with('icon', 'success');
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Penjualan')
+@section('title', 'Edit Pembelian')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -10,14 +10,14 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Edit Penjualan</h1>
+            <h1>Edit Pembelian</h1>
         </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Edit Penjualan Obat</h4>
+                            <h4>Edit Pembelian Obat</h4>
                         </div>
                         <div class="card-body">
                             <form action="{{ route('pembelian.update', $pembelian->id) }}" method="POST">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laravel 11 Stisla Starter')
+@section('title', 'Unit')
 
 @push('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">

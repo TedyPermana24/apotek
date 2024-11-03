@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laravel 11 Stisla Starter')
+@section('title', 'Unit')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -18,17 +18,17 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Edit Kategori</h4>
+                    <h4>Edit Unit</h4>
                   </div>
                   <div class="card-body">
-                    <form action="{{ route('kategori.update', $kategori->id) }}" method="post">
+                    <form action="{{ route('unit.update', $unit->id) }}" method="post">
                     @csrf
-                    <input type="hidden" class="form-control" value="{{ $kategori->id }}" name="id">
+                    <input type="hidden" class="form-control" value="{{ $unit->id }}" name="id">
                     <div class="form-group row mb-4">
-                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama Kategori</label>
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama Unit</label>
                       <div class="col-sm-12 col-md-7">
-                        <input type="text" class="form-control" value="{{ $kategori->kategori }}" name="kategori">
-                        @error('kategori')
+                        <input type="text" class="form-control" value="{{ $unit->unit }}" name="unit">
+                        @error('unit')
                           <div class="text-danger ml-1">{{$message}}</div>
                         @enderror
                       </div>
@@ -36,7 +36,7 @@
                     <div class="form-group row mb-4">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Deskripsi</label>
                       <div class="col-sm-12 col-md-7">
-                        <textarea type="number" class="form-control" name="deskripsi">{{ $kategori->deskripsi }}</textarea>
+                        <textarea type="text" class="form-control" name="deskripsi">{{ $unit->deskripsi }}</textarea>
                         @error('deskripsi')
                           <div class="text-danger ml-1">{{$message}}</div>
                         @enderror

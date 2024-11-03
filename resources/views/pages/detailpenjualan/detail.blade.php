@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Pembelian')
+@section('title', 'Detail Penjualan')
 
 @push('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">

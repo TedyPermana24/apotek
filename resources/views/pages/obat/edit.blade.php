@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laravel 11 Stisla Starter')
+@section('title', 'Obat')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -62,7 +62,7 @@
                     <div class="form-group row mb-4">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Stok</label>
                       <div class="col-sm-12 col-md-7">
-                        <input type="number" class="form-control" value="{{ $obat->stok }}" name="stok">
+                        <input type="number" class="form-control" value="{{ $obat->stok }}" name="stok" @if(auth()->user()->role === 'kasir') readonly @endif>
                         @error('stok')
                           <div class="text-danger ml-1">{{$message}}</div>
                         @enderror

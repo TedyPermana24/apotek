@@ -8,6 +8,8 @@ use App\Models\Obat;
 use App\Models\Kategori;
 use App\Models\Unit;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Database\QueryException;
+use Exception;
 
 
 class ObatController extends Controller
@@ -148,11 +150,27 @@ class ObatController extends Controller
 
     function delete($id)
     {
-        $obat = Obat::find($id);
-        $obat->delete();
-        return redirect()->route('obat.tampil')
-        ->with('type', 'Berhasil!')
-        ->with('message', 'Data obat berhasil dihapus')
-        ->with('icon', 'success');
+        try {
+            $obat = Obat::find($id);
+            $obat->delete();
+            return redirect()->route('obat.tampil')
+            ->with('type', 'Berhasil!')
+            ->with('message', 'Data obat berhasil dihapus')
+            ->with('icon', 'success');
+        }catch (QueryException $e) {
+            if ($e->getCode() === '23000') { // Error code 23000 terkait constraint
+                return back()  
+                ->with('type', 'Gagal!')
+                ->with('message', 'Data obat gagal dihapus pelanggaran constraint')
+                ->with('icon', 'error');
+            }
+            return back()->withErrors('Terjadi kesalahan saat menghapus data: ' . $e->getMessage());
+        } catch (Exception $e) {
+            // Menangani error umum lainnya
+            return back()
+            >with('type', 'Gagal!')
+            ->with('message', $e->getMessage())
+            ->with('icon', 'error');
+        }
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laravel 11 Stisla Starter')
+@section('title', 'Kategori')
 
 @push('style')
     <!-- CSS Libraries -->

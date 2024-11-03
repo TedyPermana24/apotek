@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Database\QueryException;
+use Exception;
 
 class UnitController extends Controller
 {
@@ -54,7 +56,7 @@ class UnitController extends Controller
 
     function edit($id)
     {
-        return view ('pages.kategori.edit', ['type_menu' => 'data', 'unit' => Unit::find($id)]);
+        return view ('pages.unit.edit', ['type_menu' => 'data', 'unit' => Unit::find($id)]);
     }
 
     function update(Request $request, $id)
@@ -94,11 +96,27 @@ class UnitController extends Controller
     
     function delete($id)
     {
-        $unit = Unit::find($id);
-        $unit->delete();
-        return redirect()->route('unit.tampil')
-        ->with('type', 'Berhasil!')
-        ->with('message', 'Data unit berhasil dihapus')
-        ->with('icon', 'success');
+        try {
+            $unit = Unit::find($id);
+            $unit->delete();
+            return redirect()->route('unit.tampil')
+            ->with('type', 'Berhasil!')
+            ->with('message', 'Data unit berhasil dihapus')
+            ->with('icon', 'success');
+        }catch (QueryException $e) {
+            if ($e->getCode() === '23000') { // Error code 23000 terkait constraint
+                return back()  
+                ->with('type', 'Gagal!')
+                ->with('message', 'Data unit gagal dihapus pelanggaran constraint')
+                ->with('icon', 'error');
+            }
+            return back()->withErrors('Terjadi kesalahan saat menghapus data: ' . $e->getMessage());
+        } catch (Exception $e) {
+            // Menangani error umum lainnya
+            return back()
+            >with('type', 'Gagal!')
+            ->with('message', $e->getMessage())
+            ->with('icon', 'error');
+        }
     }
 }

@@ -48,37 +48,12 @@
                     </li>
                 </ul>
             </li>
-            <li class="menu-header">Error</li>
-            <li class="nav-item dropdown {{ $type_menu === 'error' ? 'active' : '' }}">
-                <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-exclamation"></i>
-                    <span>Errors</span></a>
-                <ul class="dropdown-menu">
-                    <li class="{{ Request::is('error-403') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('error-403') }}">403</a>
-                    </li>
-                    <li class="{{ Request::is('error-404') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('error-404') }}">404</a>
-                    </li>
-                    <li class="{{ Request::is('error-500') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('error-500') }}">500</a>
-                    </li>
-                    <li class="{{ Request::is('error-503') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('error-503') }}">503</a>
-                    </li>
-                </ul>
+            @if(auth()->user()->role === 'admin')
+            <li class="menu-header">Pegawai</li>
+            <li class="nav-item  {{ $type_menu === 'pegawai' ? 'active' : '' }}">
+                <a href="{{ route('pegawai.tampil') }}"
+                    class="nav-link"><i class="fas fa-person"></i><span>Pegawai</span></a>
             </li>
-        </ul>
-
-        <div class="hide-sidebar-mini mt-4 mb-4 p-3">
-            <a href="https://docs.getstisla.com/"
-                class="btn btn-primary btn-lg btn-block btn-icon-split">
-                <i class="fas fa-rocket"></i> Documentation
-            </a>
-        </div>
+           @endif
     </aside>
 </div>
