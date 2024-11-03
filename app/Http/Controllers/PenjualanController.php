@@ -153,12 +153,8 @@ class PenjualanController extends Controller
         }
     
         DB::beginTransaction();
-    
- 
-            // Load penjualan bersama penjualanObat untuk mencegah null
             $penjualan = Penjualan::with('penjualanObat')->findOrFail($id);
             
-            // Update data utama penjualan
             $penjualan->update([
                 'nama' => $request->nama,
                 'tanggal' => $request->tanggal,
@@ -212,9 +208,8 @@ class PenjualanController extends Controller
                 $obat = Obat::find($jual->obat_id); // Mengambil obat berdasarkan obat_id di tabel penjualan_obat
         
                 if ($obat) {
-                    // Menambahkan stok obat sesuai jumlah yang dijual
-                    $obat->stok += $jual->jumlah; // 'jumlah' merupakan jumlah pembelian dalam penjualan_obat
-                    $obat->save(); // Menyimpan stok terbaru ke database
+                    $obat->stok += $jual->jumlah; 
+                    $obat->save(); 
                 }
             }
     
@@ -229,7 +224,7 @@ class PenjualanController extends Controller
             ->with('message', 'Data penjualan berhasil dihapus')
             ->with('icon', 'success');
         }catch (QueryException $e) {
-            if ($e->getCode() === '23000') { // Error code 23000 terkait constraint
+            if ($e->getCode() === '23000') { 
                 return back()  
                 ->with('type', 'Gagal!')
                 ->with('message', 'Data penjualan gagal dihapus pelanggaran constraint')
@@ -237,7 +232,6 @@ class PenjualanController extends Controller
             }
             return back()->withErrors('Terjadi kesalahan saat menghapus data: ' . $e->getMessage());
         } catch (Exception $e) {
-            // Menangani error umum lainnya
             return back()
             >with('type', 'Gagal!')
             ->with('message', $e->getMessage())

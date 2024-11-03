@@ -16,8 +16,9 @@ class Obat extends Model
         'kategori',
         'unit',
         'stok',
-        'date',
-        'harga'
+        'kadaluwarsa',
+        'harga_beli',
+        'harga_jual'
     ];
 
     function kategoris()

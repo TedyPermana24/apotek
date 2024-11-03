@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\UnitController;
@@ -19,9 +20,7 @@ Route::post('/login-proses', [LoginController::class, 'login', ])->name('login.p
 
 Route::group(['middleware' => ['auth']], function(){
     
-    Route::get('/', function () {
-        return view('home', ['type_menu' => 'dashboard']);
-    });
+    Route::get('/', [DashboardController::class, 'tampil', ])->name('dashboard');
 
     Route::get('/logout', [LoginController::class, 'logout', ])->name('logout');
     Route::get('/obat', [ObatController::class, 'tampil', ])->name('obat.tampil');

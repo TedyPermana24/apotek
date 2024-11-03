@@ -204,13 +204,12 @@ class PembelianController extends Controller
         
         
             foreach ($pembelianobat as $jual) {
-                // Assuming you have a model for Obat and a 'stok' field for the stock quantity
-                $obat = Obat::find($jual->obat_id); // Mengambil obat berdasarkan obat_id di tabel penjualan_obat
+                $obat = Obat::find($jual->obat_id);
         
                 if ($obat) {
-                    // Menambahkan stok obat sesuai jumlah yang dijual
-                    $obat->stok -= $jual->jumlah; // 'jumlah' merupakan jumlah pembelian dalam penjualan_obat
-                    $obat->save(); // Menyimpan stok terbaru ke database
+                    
+                    $obat->stok -= $jual->jumlah;
+                    $obat->save(); 
                 }
             }
     
@@ -225,7 +224,7 @@ class PembelianController extends Controller
             ->with('message', 'Data pembelian berhasil dihapus')
             ->with('icon', 'success');
         }catch (QueryException $e) {
-            if ($e->getCode() === '23000') { // Error code 23000 terkait constraint
+            if ($e->getCode() === '23000') { 
                 return back()  
                 ->with('type', 'Gagal!')
                 ->with('message', 'Data pembelian gagal dihapus pelanggaran constraint')
@@ -233,7 +232,6 @@ class PembelianController extends Controller
             }
             return back()->withErrors('Terjadi kesalahan saat menghapus data: ' . $e->getMessage());
         } catch (Exception $e) {
-            // Menangani error umum lainnya
             return back()
             >with('type', 'Gagal!')
             ->with('message', $e->getMessage())

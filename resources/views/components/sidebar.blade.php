@@ -9,7 +9,7 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="nav-item  {{ $type_menu === 'dashboard' ? 'active' : '' }}">
-                <a href="#"
+                <a href="{{route('dashboard')}}"
                     class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
             <li class="nav-item dropdown {{ $type_menu === 'data' ? 'active' : '' }}">
@@ -36,7 +36,7 @@
             </li>
             <li class="nav-item dropdown {{ $type_menu === 'transaksi' ? 'active' : '' }}">
                 <a href="#"
-                    class="nav-link has-dropdown"><i class="fa-solid fa-money-bill"></i><span>Transaksi</span></a>
+                    class="nav-link has-dropdown"><i class="fas fa-money-bill"></i><span>Transaksi</span></a>
                 <ul class="dropdown-menu">
                     <li class='{{ Request::is('detailpembelian') ? 'active' : '' }}'>
                         <a class="nav-link"
