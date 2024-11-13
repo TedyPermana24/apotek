@@ -49,6 +49,22 @@
                 </ul>
             </li>
             @if(auth()->user()->role === 'admin')
+            <li class="nav-item dropdown {{ $type_menu === 'logger' ? 'active' : '' }}">
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-file"></i><span>Logger</span></a>
+                <ul class="dropdown-menu">
+                    <li class='{{ Request::is('pembelianLogger') ? 'active' : '' }}'>
+                        <a class="nav-link"
+                            href="{{ url('/pembelianLogger') }}">Pembelian</a>
+                    </li>
+                    <li class='{{ Request::is('penjualanLogger') ? 'active' : '' }}'>
+                        <a class="nav-link"
+                            href="{{ url('/penjualanLogger') }}">Penjualan</a>
+                    </li>
+                </ul>
+            </li>
+           @endif
+            @if(auth()->user()->role === 'admin')
             <li class="menu-header">Pegawai</li>
             <li class="nav-item  {{ $type_menu === 'pegawai' ? 'active' : '' }}">
                 <a href="{{ route('pegawai.tampil') }}"

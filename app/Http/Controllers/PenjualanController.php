@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PenjualanObat;
-use App\Models\Penjualan;
 use App\Models\Kategori;
+use App\Models\LogEntry;
 use App\Models\Obat;
+use App\Models\Penjualan;
+use App\Models\PenjualanObat;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Database\QueryException;
-use Exception;
 
 
 
@@ -92,6 +94,14 @@ class PenjualanController extends Controller
 
             
         DB::commit();
+
+        LogEntry::create([
+            'username' => Auth::user()->name,
+             'action' => 'created',
+             'penjualan_id' => $penjualan->id,
+             'details' => json_encode($request->all()),
+         ]);
+ 
 
         return redirect()->route('detailpenjualan.tampil')
         ->with('type', 'Berhasil!')
@@ -187,6 +197,13 @@ class PenjualanController extends Controller
             }
     
             DB::commit();
+            
+            LogEntry::create([
+                'username' => Auth::user()->name,
+                 'action' => 'updated',
+                 'penjualan_id' => $penjualan->id,
+                 'details' => json_encode($request->all()),
+             ]);
     
             return redirect()->route('detailpenjualan.tampil')
                 ->with('type', 'Berhasil!')
@@ -218,6 +235,13 @@ class PenjualanController extends Controller
     
             $penjualan = Penjualan::find($id);
             $penjualan->delete();
+
+            LogEntry::create([
+                'username' => Auth::user()->name,
+                 'action' => 'deleted',
+                 'penjualan_id' => $penjualan->id,
+                 'details' => 'Menghapus penjualan dengan ID: ' . $penjualan->id,
+             ]);
             
              return redirect()->route('detailpenjualan.tampil')
             ->with('type', 'Berhasil!')

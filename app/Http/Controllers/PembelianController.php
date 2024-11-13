@@ -7,6 +7,8 @@ use App\Models\Obat;
 use App\Models\Pemasok;
 use App\Models\Kategori;
 use App\Models\PembelianObat;
+use App\Models\LogEntry;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -93,6 +95,13 @@ class PembelianController extends Controller
 
             
         DB::commit();
+
+        LogEntry::create([
+           'username' => Auth::user()->name,
+            'action' => 'created',
+            'pembelian_id' => $pembelian->id,
+            'details' => json_encode($request->all()),
+        ]);
 
         return redirect()->route('detailpembelian.tampil')
         ->with('type', 'Berhasil!')
@@ -189,6 +198,13 @@ class PembelianController extends Controller
             }
     
             DB::commit();
+
+            LogEntry::create([
+               'username' => Auth::user()->name,
+                'action' => 'updated',
+                'pembelian_id' => $pembelian->id,
+                'details' => json_encode($request->all()),
+            ]);
     
             return redirect()->route('detailpembelian.tampil')
                 ->with('type', 'Berhasil!')
@@ -218,6 +234,13 @@ class PembelianController extends Controller
     
             $pembelian = Pembelian::find($id);
             $pembelian->delete();
+
+            LogEntry::create([
+               'username' => Auth::user()->name,
+                'action' => 'deleted',
+                'pembelian_id' => $pembelian->id,
+                'details' => 'Deleted pembelian with ID: ' . $pembelian->id,
+            ]);
             
              return redirect()->route('detailpembelian.tampil')
             ->with('type', 'Berhasil!')

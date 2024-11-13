@@ -154,52 +154,50 @@ function tambahDataObat() {
     newRow.className = 'form-row';
     newRow.id = 'data-obat-row-' + obatRowCount;
     newRow.innerHTML = `
-        <div class="form-group col-md-3">
-            <select class="form-control select" name="nama_obat[]" onchange="updateKategori(this); updateStok(this);">
-                <option value="" disabled selected>Pilih Obat</option>
-                     @foreach ($obat as $items)
-                            <option value="{{ $items->id }}" data-stok-id="{{ $items->stok}}" data-kategori-id="{{ $items->kategoris->kategori}}">{{ $items->nama_obat}}</option>
-                    @endforeach
-            </select>
-            @error('nama_obat')
-                <div class="text-danger ml-1">{{$message}}</div>
-            @enderror
-        </div>
-         <div class="form-group col-md-1">
-            <input type="text" class="form-control stok-input" name="stok[]" readonly>
-            @error('stok')
-                <div class="text-danger ml-1">{{$message}}</div>
-            @enderror
-        </div>
-         <div class="form-group col-md-2">
-            <input type="text" class="form-control kategori-input" name="kategori[]" readonly>
-            @error('kategori')
-                <div class="text-danger ml-1">{{$message}}</div>
-            @enderror
-        </div>
-        <div class="form-group col-md-1">
-            <input type="number" class="form-control" name="jumlah[]" oninput="updateTotal(this)" required>
-            @error('jumlah')
-                <div class="text-danger ml-1">{{$message}}</div>
-            @enderror
-        </div>
-        <div class="form-group col-md-2">
-            <input type="number" class="form-control" name="harga[]" oninput="updateTotal(this)" required>
-            @error('harga')
-                <div class="text-danger ml-1">{{$message}}</div>
-            @enderror
-        </div>
-        <div class="form-group col-md-2">
-           
-            <input type="number" class="form-control" name="total_harga[]" readonly>
-            @error('total_harga')
-                <div class="text-danger ml-1">{{$message}}</div>
-            @enderror
-        </div>
-        <div class="form-group col-md-2 d-flex align-items-end">
-            <button type="button" class="btn btn-danger" onclick="hapusDataObat(this)"><i class="fas fa-trash"></i></button>
-        </div>
-  
+    <div class="form-group col-md-3">
+        <select class="form-control select" name="nama_obat[]" onchange="updateKategori(this); updateStok(this);">
+            <option value="" disabled selected>Pilih Obat</option>
+            @foreach ($obat as $items)
+                <option value="{{ $items->id }}" data-stok-id="{{ $items->stok}}" data-kategori-id="{{ $items->kategoris->kategori}}">{{ $items->nama_obat}}</option>
+            @endforeach
+        </select>
+        @error('nama_obat')
+            <div class="text-danger ml-1">{{$message}}</div>
+        @enderror
+    </div>
+    <div class="form-group col-md-1">
+        <input type="text" class="form-control stok-input" name="stok[]" readonly>
+        @error('stok')
+            <div class="text-danger ml-1">{{$message}}</div>
+        @enderror
+    </div>
+    <div class="form-group col-md-2">
+        <input type="text" class="form-control kategori-input" name="kategori[]" readonly>
+        @error('kategori')
+            <div class="text-danger ml-1">{{$message}}</div>
+        @enderror
+    </div>
+    <div class="form-group col-md-1">
+        <input type="number" class="form-control" name="jumlah[]" oninput="updateTotal(this)" required>
+        @error('jumlah')
+            <div class="text-danger ml-1">{{$message}}</div>
+        @enderror
+    </div>
+    <div class="form-group col-md-2">
+        <input type="number" class="form-control" name="harga[]" oninput="updateTotal(this)" required>
+        @error('harga')
+            <div class="text-danger ml-1">{{$message}}</div>
+        @enderror
+    </div>
+    <div class="form-group col-md-2">
+        <input type="number" class="form-control" name="total_harga[]" readonly>
+        @error('total_harga')
+            <div class="text-danger ml-1">{{$message}}</div>
+        @enderror
+    </div>
+    <div class="form-group col-md-1 d-flex align-items-end">
+        <button type="button" class="btn btn-danger" onclick="hapusDataObat(this)"><i class="fas fa-trash"></i></button>
+    </div>
     `;
     dataObatSection.appendChild(newRow);
 }

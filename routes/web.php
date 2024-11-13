@@ -1,17 +1,20 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ObatController;
 use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\UnitController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\PembelianController;
-use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\PembelianLogger;
 use App\Http\Controllers\PembelianObatController;
+use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\PenjualanLogger;
 use App\Http\Controllers\PenjualanObatController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -68,6 +71,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/pegawai/edit/{id}', [UserController::class, 'edit', ])->name('pegawai.edit')->middleware('admin');
     Route::post('/pegawai/update/{id}', [UserController::class, 'update', ])->name('pegawai.update')->middleware('admin');
     Route::post('/pegawai/delete/{id}', [UserController::class, 'delete', ])->name('pegawai.delete')->middleware('admin');
+
+    Route::get('/pembelianLogger', [PembelianLogger::class, 'tampil'])->name('pembelian.logger')->middleware('admin');
+    Route::get('/penjualanLogger', [PenjualanLogger::class, 'tampil'])->name('penjualan.logger')->middleware('admin');
     
 
 });
